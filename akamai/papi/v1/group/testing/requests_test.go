@@ -6,9 +6,8 @@ import (
 	"reflect"
 	"testing"
 
+	th "github.com/dstdfx/go-akamai/akamai/internal/testhelper"
 	"github.com/dstdfx/go-akamai/akamai/papi/v1/group"
-	th "github.com/dstdfx/go-akamai/internal/testhelper"
-
 )
 
 func TestListGroups(t *testing.T) {
