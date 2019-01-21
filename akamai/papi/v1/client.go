@@ -3,9 +3,9 @@ package v1
 import (
 	"github.com/akamai/AkamaiOPEN-edgegrid-golang/edgegrid"
 	"github.com/dstdfx/go-akamai/akamai"
+	"github.com/dstdfx/go-akamai/akamai/internal/logger"
+	"github.com/dstdfx/go-akamai/akamai/internal/util"
 	"github.com/dstdfx/go-akamai/akamai/papi"
-	"github.com/dstdfx/go-akamai/internal/logger"
-	"github.com/dstdfx/go-akamai/internal/util"
 )
 
 // APIVersion represents current API version.
