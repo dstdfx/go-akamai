@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
+	th "github.com/dstdfx/go-akamai/akamai/internal/testhelper"
 	"github.com/dstdfx/go-akamai/akamai/papi/v1/contract"
-	th "github.com/dstdfx/go-akamai/internal/testhelper"
 )
 
 func TestListContracts(t *testing.T) {
