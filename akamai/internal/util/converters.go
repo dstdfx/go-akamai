@@ -10,3 +10,8 @@ func IntPtr(v int) *int {
 func BoolPtr(v bool) *bool {
 	return &v
 }
+
+// StringPtr returns pointer to string.
+func StringPtr(v string) *string {
+	return &v
+}
