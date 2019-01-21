@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/dstdfx/go-akamai/internal/logger"
+	"github.com/dstdfx/go-akamai/akamai/internal/logger"
 
 	"github.com/akamai/AkamaiOPEN-edgegrid-golang/edgegrid"
 )
