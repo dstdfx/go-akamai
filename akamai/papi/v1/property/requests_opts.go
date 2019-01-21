@@ -80,7 +80,7 @@ type CloneFrom struct {
 	Version int `json:"version"`
 
 	// VersionEtag performs an etag data integrity check on the original property.
-	VersionEtag *string `json:"version_etag,omitempty"`
+	VersionEtag *string `json:"cloneFromVersionEtag,omitempty"`
 
 	// CopyHostnames indicates if the same set of hostnames is assigned to the new property,
 	// false by default.
