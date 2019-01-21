@@ -2,7 +2,7 @@ package testing
 
 import "github.com/dstdfx/go-akamai/akamai/papi/v1/contract"
 
-var (
+const (
 	testListContractsRawResp = `
 {
   "accountId": "act_1-1TJZFB",
