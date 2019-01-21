@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/dstdfx/go-akamai/akamai"
-	"github.com/dstdfx/go-akamai/internal/util"
+	"github.com/dstdfx/go-akamai/akamai/internal/util"
 )
 
 const cpCodeURL = "/cpcodes"

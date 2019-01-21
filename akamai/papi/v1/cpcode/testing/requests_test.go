@@ -6,11 +6,11 @@ import (
 	"reflect"
 	"testing"
 
+	th "github.com/dstdfx/go-akamai/akamai/internal/testhelper"
 	"github.com/dstdfx/go-akamai/akamai/papi/v1/cpcode"
-	th "github.com/dstdfx/go-akamai/internal/testhelper"
 )
 
-func TestCpCode_Create(t *testing.T){
+func TestCreateCpCode(t *testing.T){
 	endpointCalled := false
 
 	testEnv := th.SetupTestEnv()
@@ -62,7 +62,7 @@ func TestCpCode_Create(t *testing.T){
 	}
 }
 
-func TestCpCode_Get(t *testing.T) {
+func TestGetCpCode(t *testing.T) {
 	endpointCalled := false
 
 	testEnv := th.SetupTestEnv()
@@ -110,7 +110,7 @@ func TestCpCode_Get(t *testing.T) {
 	}
 }
 
-func TestCpCode_GetByLink(t *testing.T) {
+func TestGetByLinkCpCode(t *testing.T) {
 	endpointCalled := false
 
 	testEnv := th.SetupTestEnv()
@@ -150,7 +150,7 @@ func TestCpCode_GetByLink(t *testing.T) {
 	}
 }
 
-func TestCpCode_List(t *testing.T) {
+func TestListCpCode(t *testing.T) {
 	endpointCalled := false
 
 	testEnv := th.SetupTestEnv()
