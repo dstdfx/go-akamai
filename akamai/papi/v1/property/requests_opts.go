@@ -62,7 +62,10 @@ type DeleteOpts struct {
 
 // CreateBody represents request body for property creation.
 type CreateBody struct {
+	// ProductID is an identifier of the the product assigned to the property.
 	ProductID string `json:"productId"`
+
+	// PropertyName is a descriptive name for the property.
 	PropertyName string `json:"propertyName"`
 
 	// CloneFrom identifies another property instance to clone when making a POST request
