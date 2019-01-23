@@ -17,6 +17,9 @@ type Tree struct {
 
 	// Errors represents an array of validate errors returned for a rule.
 	Errors          []*Error `json:"errors,omitempty"`
+
+	// Warnings represents an array of validate warnings returned for a rule.
+	Warnings 		[]*Warning `json:"warnings,omitempty"`
 }
 
 // TopLevelRuleOptions is a set of flags that could be applied to the top-level rule object.
@@ -161,4 +164,16 @@ type Error struct {
 	// BehaviorName reflects a name of the behavior error
 	// is related with.
 	BehaviorName string `json:"behaviorName"`
+}
+
+type Warning struct {
+	// Type of the error.
+	Type         string `json:"type"`
+
+	// ErrorLocation describes where error might be.
+	ErrorLocation string `json:"errorLocation"`
+
+	// Detail describes the problem in detail.
+	Detail string `json:"detail"`
+
 }

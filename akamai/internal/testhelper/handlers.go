@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+
 )
 
 // HandleReqOpts represents options for the testing utils package handlers.
@@ -62,10 +63,6 @@ func HandleReqWithBody(t *testing.T, opts *HandleReqOpts) {
 	opts.Mux.HandleFunc(opts.URL, func(w http.ResponseWriter, r *http.Request) {
 		checkQueryParams(t, r.URL, opts)
 
-		w.Header().Add("Content-Type", "application/json")
-		w.WriteHeader(opts.Status)
-		fmt.Fprint(w, opts.RawResponse)
-
 		if r.Method != opts.Method {
 			t.Fatalf("expected %s method but got %s", opts.Method, r.Method)
 		}
@@ -74,6 +71,7 @@ func HandleReqWithBody(t *testing.T, opts *HandleReqOpts) {
 		if err != nil {
 			t.Errorf("unable to read the request body: %v", err)
 		}
+		defer r.Body.Close()
 
 		var actualRequest interface{}
 		err = json.Unmarshal(b, &actualRequest)
@@ -90,6 +88,10 @@ func HandleReqWithBody(t *testing.T, opts *HandleReqOpts) {
 		if !reflect.DeepEqual(expectedRequest, actualRequest) {
 			t.Fatalf("expected %#v request, but got %#v", expectedRequest, actualRequest)
 		}
+
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(opts.Status)
+		fmt.Fprint(w, opts.RawResponse)
 
 		*opts.CallFlag = true
 	})
