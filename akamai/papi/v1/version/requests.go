@@ -10,7 +10,10 @@ import (
 	"github.com/dstdfx/go-akamai/akamai/internal/util"
 )
 
-const versionURL = "/properties/%s/versions"
+const (
+	versionURL = "/properties/%s/versions"
+	searchURL = "/search/find-by-value"
+)
 
 // Create requests a creation of a new property version based on any previous version.
 // All data from the createFromVersion populates the new version, including its
@@ -182,6 +185,33 @@ func List(ctx context.Context,
 	}
 
 	respResult, err := client.DoRequest(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	if respResult.Err != nil {
+		return nil, respResult, respResult.Err
+	}
+
+	v := struct {
+		Versions struct{
+			Items []*Version `json:"items"`
+		} `json:"versions"`
+	}{}
+
+	if err = respResult.ExtractResult(&v); err != nil {
+		return nil, nil, err
+	}
+
+	return v.Versions.Items, respResult, nil
+}
+
+// Search searches properties by name, or by the hostname or edge hostname for which it is currently active.
+// The response lists the matching set of currently active property versions, and also the latest version if inactive.
+func Search(ctx context.Context,
+	client *akamai.ServiceClient,
+	body SearchBody) ([]*Version, *akamai.ResponseResult, error){
+
+	respResult, err := client.DoRequest(ctx, http.MethodPost, searchURL, body)
 	if err != nil {
 		return nil, nil, err
 	}

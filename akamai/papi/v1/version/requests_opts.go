@@ -48,6 +48,19 @@ type ListOpts struct {
 	GroupID string `param:"groupId"`
 }
 
+// SearchBody represents request body for search property's version request.
+// Only one query member is allowed in the POST request.
+type SearchBody struct {
+	// EdgeHostname field. Search for property versions active on a specific edge hostname.
+	EdgeHostname string `json:"edgeHostname,omitempty"`
+
+	// Hostname field. Search for property versions active on a specific hostname.
+	Hostname string `json:"hostname,omitempty"`
+
+	// PropertyName Search for properties by name.
+	PropertyName string `json:"propertyName,omitempty"`
+}
+
 // CreateBody represents request body for a property creation.
 type CreateBody struct {
 	// CreateFromVersion is the property version on which to base the new version.
