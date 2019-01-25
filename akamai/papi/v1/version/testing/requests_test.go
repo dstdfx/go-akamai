@@ -251,3 +251,50 @@ func TestListVersions(t *testing.T) {
 		t.Fatalf("expected %#v, but got %#v", expected, actual)
 	}
 }
+
+func TestSearchVersions(t *testing.T) {
+	endpointCalled := false
+
+	testEnv := th.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testEnv.NewTestV1PAPIClient()
+
+	th.HandleReqWithBody(t, &th.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         "/papi/v1/search/find-by-value",
+		RawResponse: testSearchVersionsRawResponse,
+		RawRequest: testSearchVersionRawRequest,
+		Method:      http.MethodPost,
+		Status:      http.StatusOK,
+		CallFlag:    &endpointCalled,
+	})
+
+	expected := testSearchVersionsExpected
+
+	actual, _, err := version.Search(
+		context.Background(),
+		testEnv.Client,
+		version.SearchBody{
+			PropertyName: "my-property",
+		})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !endpointCalled {
+		t.Fatal("didn't get a list of property's versions")
+	}
+
+	actualKind := reflect.TypeOf(actual).Kind()
+	if actualKind != reflect.Slice {
+		t.Errorf("expected slice of property versions, but got %v", actualKind)
+	}
+
+	if len(actual) != 2 {
+		t.Errorf("expected 2 property's versions, but got %d", len(actual))
+	}
+
+	if !reflect.DeepEqual(actual, expected) {
+		t.Fatalf("expected %#v, but got %#v", expected, actual)
+	}
+}

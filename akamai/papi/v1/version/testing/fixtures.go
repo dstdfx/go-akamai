@@ -123,6 +123,41 @@ const (
         ]
     }
 }`
+
+	testSearchVersionsRawResponse = `
+{
+    "versions": {
+        "items": [
+            {
+                "accountId": "act_F-AC-1519477",
+                "assetId": "aid_10627973",
+                "contractId": "ctr_C-10UBXF3",
+                "groupId": "grp_52301",
+                "productionStatus": "ACTIVE",
+                "propertyId": "prp_509694",
+                "propertyName": "my-property",
+                "propertyVersion": 2,
+                "stagingStatus": "INACTIVE",
+                "updatedByUser": "dstdfx@example.ru",
+                "updatedDate": "2015-03-02T15:06:13Z"
+            },
+            {
+                "accountId": "act_F-AC-1519477",
+                "assetId": "aid_10627973",
+                "contractId": "ctr_C-10UBXF3",
+                "groupId": "grp_52301",
+                "productionStatus": "INACTIVE",
+                "propertyId": "prp_509694",
+                "propertyName": "my-property",
+                "propertyVersion": 1,
+                "stagingStatus": "ACTIVE",
+                "updatedByUser": "dstdfx@example.ru",
+                "updatedDate": "2015-03-02T15:06:13Z"
+            }
+        ]
+    }
+}
+`
 )
 
 const (
@@ -132,6 +167,10 @@ const (
     "createFromVersionEtag": "2641910c585cf67b"
 }
 `
+	testSearchVersionRawRequest = `
+{
+    "propertyName": "my-property"
+}`
 	testCreateVersionExpected = "/papi/v1/properties/prp_173136/versions/2?contractId=ctr_1-1TJZH5&groupId=grp_15225"
 	testVersionLink = "/papi/v1/properties/prp_173136/versions/2"
 )
@@ -191,6 +230,34 @@ var (
 			Etag: "71573b922a87abc3",
 			ProductID: "prd_Alta",
 			Note: "initial version",
+		},
+	}
+	testSearchVersionsExpected = []*version.Version{
+		{
+			AccountID: "act_F-AC-1519477",
+			AssetID: "aid_10627973",
+			ContractID: "ctr_C-10UBXF3",
+			GroupID: "grp_52301",
+			ProductionStatus: version.ActiveStatus,
+			StagingStatus: version.InactiveStatus,
+			PropertyID: "prp_509694",
+			PropertyName: "my-property",
+			PropertyVersion: util.IntPtr(2),
+			UpdatedByUser: "dstdfx@example.ru",
+			UpdatedDate: &testTime,
+		},
+		{
+			AccountID: "act_F-AC-1519477",
+			AssetID: "aid_10627973",
+			ContractID: "ctr_C-10UBXF3",
+			GroupID: "grp_52301",
+			ProductionStatus: version.InactiveStatus,
+			StagingStatus: version.ActiveStatus,
+			PropertyID: "prp_509694",
+			PropertyName: "my-property",
+			PropertyVersion: util.IntPtr(1),
+			UpdatedByUser: "dstdfx@example.ru",
+			UpdatedDate: &testTime,
 		},
 	}
 )
