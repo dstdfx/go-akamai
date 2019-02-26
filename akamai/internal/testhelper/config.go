@@ -1,8 +1,6 @@
 package testhelper
 
-import (
-	"github.com/akamai/AkamaiOPEN-edgegrid-golang/edgegrid"
-)
+import "github.com/dstdfx/go-akamai/akamai/edgegrid"
 
 const (
 	TestClientSecret = "cHYFZMDzULZb6b7TSi+JfalaBExw85+bmRHC705jP6A="

@@ -5,8 +5,7 @@ import (
 	"net/http/httptest"
 
 	"github.com/dstdfx/go-akamai/akamai"
-
-	"github.com/akamai/AkamaiOPEN-edgegrid-golang/edgegrid"
+	"github.com/dstdfx/go-akamai/akamai/edgegrid"
 )
 
 const (

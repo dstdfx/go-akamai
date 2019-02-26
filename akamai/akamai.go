@@ -12,9 +12,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/dstdfx/go-akamai/akamai/edgegrid"
 	"github.com/dstdfx/go-akamai/akamai/internal/logger"
-
-	"github.com/akamai/AkamaiOPEN-edgegrid-golang/edgegrid"
 )
 
 const (
@@ -133,7 +132,7 @@ func (client *ServiceClient) newRequest(ctx context.Context,
 	req.Header.Add("User-Agent", client.UserAgent)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
-	req = edgegrid.AddRequestHeader(*client.Config, req)
+	req = edgegrid.AddRequestHeader(client.log, *client.Config, req)
 
 	return req, nil
 }
