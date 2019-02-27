@@ -46,7 +46,6 @@ func (error APIError) Error() string {
 // or http.Response-like.
 func NewAPIError(response *http.Response) *APIError {
 	body, _ := ioutil.ReadAll(response.Body)
-	fmt.Println(string(body))
 	return NewAPIErrorFromBody(response, body)
 }
 
