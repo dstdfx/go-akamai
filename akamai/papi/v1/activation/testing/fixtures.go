@@ -59,6 +59,31 @@ const (
     "groupId": "grp_52301"
 }
 `
+	testCancelActivationRawResponse = `
+{
+    "activations": {
+        "items": [
+            {
+                "activationId": "atv_6804950",
+                "propertyName": "1df95724-f65c-4d52-bc32-0cf20d06763c.dstdfx.space",
+                "propertyId": "prp_511225",
+                "propertyVersion": 1,
+                "network": "PRODUCTION",
+                "activationType": "ACTIVATE",
+                "status": "ABORTED",
+                "submitDate": "2015-03-02T15:06:13Z",
+                "updateDate": "2015-03-02T15:06:13Z",
+                "note": "Sample activation cancellation",
+                "accountId": "act_1-1TJZFB",
+                "groupId": "grp_15225",
+                "notifyEmails": [
+                    "dstdfx@example.ru"
+                ]
+            }
+        ]
+    }
+}
+`
 	testGetActivationByLinkRawResponse = `
 {
     "accountId": "act_F-AC-1519477",
@@ -120,6 +145,19 @@ var (
 		PropertyName: "1df95724-f65c-4d52-bc32-0cf20d06763c.dstdfx.space",
 		PropertyVersion: 1,
 		Status: activation.StatusActive,
+		SubmitDate: &testTime,
+		UpdateDate: &testTime,
+	}
+	testCancelActivationExpected = &activation.Activation{
+		ID:   "atv_6804950",
+		Type: activation.TypeActivate,
+		Network: activation.NetworkProduction,
+		Note: "Sample activation cancellation",
+		NotifyEmails: []string{"dstdfx@example.ru"},
+		PropertyID: "prp_511225",
+		PropertyName: "1df95724-f65c-4d52-bc32-0cf20d06763c.dstdfx.space",
+		PropertyVersion: 1,
+		Status: activation.StatusAborted,
 		SubmitDate: &testTime,
 		UpdateDate: &testTime,
 	}

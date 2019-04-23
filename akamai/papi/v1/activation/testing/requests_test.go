@@ -51,7 +51,8 @@ func TestListActivations(t *testing.T) {
 
 	actualKind := reflect.TypeOf(actual).Kind()
 	if actualKind != reflect.Slice {
-		t.Errorf("expected slice of pointers to a list of property's activations, but got %v", actualKind)
+		t.Errorf("expected slice of pointers to a list of property's activations, but got %v",
+			actualKind)
 	}
 	if len(actual) != 1 {
 		t.Errorf("expected 1 property's activation, but got %d", len(actual))
@@ -204,5 +205,92 @@ func TestCreateActivation(t *testing.T) {
 
 	if !reflect.DeepEqual(actual, expected) {
 		t.Fatalf("expected %#v, but got %#v", expected, actual)
+	}
+}
+
+func TestCancelActivation(t *testing.T){
+	endpointCalled := false
+
+	testEnv := th.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testEnv.NewTestV1PAPIClient()
+
+	th.HandleReqWithoutBody(t, &th.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         "/papi/v1/properties/prp_511225/activations/atv_6804950",
+		RawResponse: testCancelActivationRawResponse,
+		Method:      http.MethodDelete,
+		QueryParams: map[string]string{
+			"contractId": th.TestContractID,
+			"groupId": th.TestGroupID,
+		},
+		Status:      http.StatusOK,
+		CallFlag:    &endpointCalled,
+	})
+
+	expected := testCancelActivationExpected
+
+	actual, _, err := activation.Cancel(
+		context.Background(),
+		testEnv.Client,
+		"prp_511225",
+		"atv_6804950",
+		activation.CancelOpts{
+			ContractID: th.TestContractID,
+			GroupID: th.TestGroupID,
+		})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !endpointCalled {
+		t.Fatal("didn't cancel a property's activation")
+	}
+
+	actualKind := reflect.TypeOf(actual).Kind()
+	if actualKind != reflect.Ptr {
+		t.Errorf("expected pointer to property's activation, but got %v", actualKind)
+	}
+
+	if !reflect.DeepEqual(actual, expected) {
+		t.Fatalf("expected %#v, but got %#v", expected, actual)
+	}
+}
+
+func TestCancelActivation_AlreadyCanceled(t *testing.T){
+	endpointCalled := false
+
+	testEnv := th.SetupTestEnv()
+	defer testEnv.TearDownTestEnv()
+
+	testEnv.NewTestV1PAPIClient()
+
+	th.HandleReqWithoutBody(t, &th.HandleReqOpts{
+		Mux:         testEnv.Mux,
+		URL:         "/papi/v1/properties/prp_511225/activations/atv_6804950",
+		Method:      http.MethodDelete,
+		QueryParams: map[string]string{
+			"contractId": th.TestContractID,
+			"groupId": th.TestGroupID,
+		},
+		Status:      http.StatusNoContent,
+		CallFlag:    &endpointCalled,
+	})
+
+	_, _, err := activation.Cancel(
+		context.Background(),
+		testEnv.Client,
+		"prp_511225",
+		"atv_6804950",
+		activation.CancelOpts{
+			ContractID: th.TestContractID,
+			GroupID: th.TestGroupID,
+		})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !endpointCalled {
+		t.Fatal("didn't cancel a property's activation")
 	}
 }
