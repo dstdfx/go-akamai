@@ -160,3 +160,50 @@ func Create(ctx context.Context,
 
 	return v.ActivationLink, respResult, nil
 }
+
+// Cancel requests a cancellation of the property's activation.
+// A successful cancellation results in a 200 response and an ABORTED status.
+// If the activation is no longer PENDING, a 422 (unprocessable) error indicates
+// that it can no longer be canceled. Canceling an activation that has already
+// been canceled results in a 204 response, indicating there’s no resource to delete.
+// Canceling an unknown activation results in a 404 error.
+func Cancel(ctx context.Context,
+	client *akamai.ServiceClient,
+	propertyID, activationID string, opts CancelOpts) (*Activation, *akamai.ResponseResult, error){
+
+	url := fmt.Sprintf(activationURL + "/%s",
+		propertyID,
+		activationID)
+	queryParams, err := util.BuildQueryParameters(opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if queryParams != "" {
+		url = strings.Join([]string{url, queryParams}, "?")
+	}
+
+	respResult, err := client.DoRequest(ctx, http.MethodDelete, url, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	if respResult.Err != nil {
+		return nil, respResult, respResult.Err
+	}
+
+	if respResult.StatusCode == http.StatusNoContent {
+		return nil, respResult, nil
+	}
+
+	v := struct {
+		Activations struct {
+			Items []*Activation `json:"items"`
+		} `json:"activations"`
+	}{}
+
+	if err = respResult.ExtractResult(&v); err != nil {
+		return nil, nil, err
+	}
+
+	return v.Activations.Items[0], respResult, nil
+}
