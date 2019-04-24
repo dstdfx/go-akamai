@@ -131,6 +131,7 @@ func TestCreateEdgeHostnames(t *testing.T) {
 			DomainPrefix: "www.example.com",
 			DomainSuffix: "edgesuite.net",
 			Secure: util.BoolPtr(true),
+			SecureNetwork: edgehostname.SecureNetworkStandartTLS,
 			IPVersionBehavior: edgehostname.IPVersionBehaviorV4,
 			SlotNumber: util.IntPtr(12345),
 		},

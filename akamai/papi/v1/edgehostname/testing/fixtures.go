@@ -94,6 +94,7 @@ const (
   "productId": "prd_HTTP_Downloads",
   "domainPrefix": "www.example.com",
   "domainSuffix": "edgesuite.net",
+  "secureNetwork": "STANDARD_TLS",
   "secure": true,
   "ipVersionBehavior": "IPV4",
   "slotNumber": 12345
