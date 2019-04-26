@@ -5,9 +5,10 @@ import "time"
 type NetworkStatus string
 
 const (
-	ActiveStatus NetworkStatus = "ACTIVE"
-	InactiveStatus NetworkStatus = "INACTIVE"
-	PendingStatus NetworkStatus = "PENDING"
+	StatusActive NetworkStatus = "ACTIVE"
+	StatusInactive NetworkStatus = "INACTIVE"
+	StatusPending NetworkStatus = "PENDING"
+	StatusDeactivated NetworkStatus = "DEACTIVATED"
 )
 
 // Version specifies the version of a property.
