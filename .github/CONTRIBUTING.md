@@ -30,3 +30,13 @@ api_object/              # Name of the directory should desrcibe API object (pro
 
 Please implement tests for all methods that you're creating.
 Check for examples: https://github.com/dstdfx/go-akamai/tree/master/akamai/papi/v1/property/testing
+
+To run linters:
+```bash
+make golangci-lint
+```
+
+To run unit tests:
+```bash
+make test
+```
